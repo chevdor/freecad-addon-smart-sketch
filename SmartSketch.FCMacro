@@ -1,0 +1,156 @@
+"""
+SmartSketch — Create a sketch on the plane nearest to the current viewport,
+preserving the viewing direction.
+
+Instead of always snapping to FRONT after creating a sketch on the XZ plane,
+this macro detects which way you're looking, sets MapReversed accordingly, and
+forces the viewport back to your original direction after FreeCAD's built-in
+auto-alignment fires.
+"""
+
+__Name__     = "SmartSketch"
+__Comment__  = "Create a sketch on the nearest plane without flipping the viewport"
+__Author__   = "Will"
+__Version__  = "0.1.0"
+__Date__     = "2026-03-27"
+__License__  = "MIT"
+__Help__     = "Orient the viewport, then run. The sketch opens facing you."
+__Status__   = "stable"
+__Requires__ = "FreeCAD >= 0.20"
+__Files__    = "SmartSketch.FCMacro"
+
+import FreeCAD as App
+import FreeCADGui as Gui
+
+try:
+    from PySide6.QtCore import QTimer
+except ImportError:
+    from PySide2.QtCore import QTimer
+
+
+def _nearest_plane_info(view_dir):
+    """Return (plane_role, map_reversed, view_method) for the given view direction.
+
+    plane_role   — 'XZ_Plane', 'XY_Plane', or 'YZ_Plane'
+    map_reversed — True when the camera is on the negative-normal side of the plane
+    view_method  — name of the Gui view method that matches the original direction
+    """
+    dx, dy, dz = view_dir.x, view_dir.y, view_dir.z
+
+    # Compare absolute components: the largest tells us which plane is most face-on.
+    #   XZ plane  normal = +Y axis  →  |dy| biggest
+    #   XY plane  normal = +Z axis  →  |dz| biggest
+    #   YZ plane  normal = +X axis  →  |dx| biggest
+    adx, ady, adz = abs(dx), abs(dy), abs(dz)
+
+    if ady >= adx and ady >= adz:
+        # XZ plane (normal = +Y axis)
+        # FRONT: getViewDirection → dy > 0  → MapReversed=False, restore viewFront
+        # REAR:  getViewDirection → dy < 0  → MapReversed=True,  restore viewRear
+        reversed_ = dy < 0
+        view_method = "viewFront" if dy > 0 else "viewRear"
+        return "XZ_Plane", reversed_, view_method
+
+    elif adz >= adx and adz >= ady:
+        # XY plane (normal = +Z axis)
+        # TOP:    getViewDirection → dz < 0  → MapReversed=False, restore viewTop
+        # BOTTOM: getViewDirection → dz > 0  → MapReversed=True,  restore viewBottom
+        reversed_ = dz > 0
+        view_method = "viewBottom" if dz > 0 else "viewTop"
+        return "XY_Plane", reversed_, view_method
+
+    else:
+        # YZ plane (normal = +X axis)
+        # RIGHT: getViewDirection → dx < 0  → MapReversed=False, restore viewRight
+        # LEFT:  getViewDirection → dx > 0  → MapReversed=True,  restore viewLeft
+        reversed_ = dx > 0
+        view_method = "viewLeft" if dx > 0 else "viewRight"
+        return "YZ_Plane", reversed_, view_method
+
+
+def _get_or_create_body(doc):
+    """Return the active PartDesign body, or the first one found, or create a new one."""
+    # Try the GUI's notion of the active body first
+    try:
+        body = Gui.ActiveDocument.ActiveView.getActiveObject("pdbody")
+        if body is not None:
+            return body
+    except Exception:
+        pass
+
+    # Fall back to the first Body in the document
+    for obj in doc.Objects:
+        if obj.TypeId == "PartDesign::Body":
+            return obj
+
+    # Nothing found — create one
+    body = doc.addObject("PartDesign::Body", "Body")
+    doc.recompute()
+    return body
+
+
+def _find_datum_plane(body, role):
+    """Find a datum plane in the body's Origin by its Role property."""
+    try:
+        for feature in body.Origin.OriginFeatures:
+            if getattr(feature, "Role", None) == role:
+                return feature
+    except Exception:
+        pass
+    return None
+
+
+def main():
+    doc = App.ActiveDocument
+    if doc is None:
+        App.Console.PrintError("SmartSketch: No active document.\n")
+        return
+
+    view = Gui.ActiveDocument.ActiveView
+    view_dir = view.getViewDirection()
+
+    App.Console.PrintMessage(
+        f"SmartSketch: view direction = ({view_dir.x:.2f}, {view_dir.y:.2f}, {view_dir.z:.2f})\n"
+    )
+    plane_role, map_reversed, view_method = _nearest_plane_info(view_dir)
+
+    body = _get_or_create_body(doc)
+
+    plane = _find_datum_plane(body, plane_role)
+    if plane is None:
+        App.Console.PrintError(
+            f"SmartSketch: Could not find {plane_role} in body '{body.Label}'.\n"
+        )
+        return
+
+    # Create and attach the sketch
+    sketch = body.newObject("Sketcher::SketchObject", "Sketch")
+    # 'Support' was renamed to 'AttachmentSupport' in FreeCAD 1.x
+    if hasattr(sketch, "AttachmentSupport"):
+        sketch.AttachmentSupport = (plane, [""])
+    else:
+        sketch.Support = (plane, [""])
+    sketch.MapMode = "FlatFace"
+    sketch.MapReversed = map_reversed
+    doc.recompute()
+
+    # Open the sketch for editing.
+    # FreeCAD will auto-align the viewport here (always to the plane's default side).
+    Gui.ActiveDocument.setEdit(sketch)
+
+    # After FreeCAD's auto-alignment fires, restore the view the user was using.
+    # The delay gives the Qt event loop time to finish the built-in alignment.
+    QTimer.singleShot(200, lambda: getattr(view, view_method)())
+
+    App.Console.PrintMessage(
+        f"SmartSketch: created sketch on {plane_role}"
+        f" (MapReversed={map_reversed}, view={view_method})\n"
+    )
+
+
+try:
+    main()
+except Exception as exc:
+    import traceback
+    App.Console.PrintError(f"SmartSketch: unexpected error — {exc}\n")
+    App.Console.PrintError(traceback.format_exc())
