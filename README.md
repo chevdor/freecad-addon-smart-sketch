@@ -4,7 +4,7 @@ A FreeCAD macro that creates a sketch on the plane nearest to your current viewp
 
 ## Quick Start
 
-1. **Edit → Preferences → Addon Manager → Custom repositories** → add `https://github.com/chevdor/freecad-addon-smart-sketch` → OK, then open **Tools → Addon Manager**, search for *SmartSketch* and click Install
+1. **Edit → Preferences → Addon Manager → Custom repositories** → add `https://github.com/chevdor/freecad-addon-smart-sketch` with branch `master` → OK, then open **Tools → Addon Manager**, search for *SmartSketch* and click Install
 2. Switch to **Part Design**, rotate the viewport toward the face you want to sketch on
 3. Press **S, S** — done
 
