@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<package format="1" xmlns="https://wiki.freecad.org/Package_Metadata">
+  <name>SmartSketch</name>
+  <description>Create a sketch on the nearest plane without flipping the viewport</description>
+  <version>0.1.0</version>
+  <maintainer>chevdor</maintainer>
+  <license>MIT</license>
+  <url type="repository">https://github.com/chevdor/freecad-addon-smart-sketch</url>
+  <content>
+    <macro>
+      <file>SmartSketch.FCMacro</file>
+    </macro>
+  </content>
+</package>
