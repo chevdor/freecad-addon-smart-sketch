@@ -2,6 +2,12 @@
 
 A FreeCAD macro that creates a sketch on the plane nearest to your current viewport — and keeps the view facing the direction you chose.
 
+## Quick Start
+
+1. **Tools → Addon Manager → ⚙ → Add custom repository** → paste `https://github.com/chevdor/freecad-addon-smart-sketch` → click Install
+2. Switch to **Part Design**, rotate the viewport toward the face you want to sketch on
+3. Press **S, S** — done
+
 ## Demo
 
 **Before — built-in sketch creation always snaps the viewport to Front, even if you were looking at the Back. Same issue for Left (snaps to Right) and Bottom (snaps to Top):**
