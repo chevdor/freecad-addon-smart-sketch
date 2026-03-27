@@ -65,9 +65,12 @@ For alternative install methods see the [official macro installation guide](http
 
 ### 3. Add the keyboard shortcut
 
-1. **Tools → Customize → Keyboard** tab
-2. Set Category to **Macros**, find *SmartSketch* in the list
-3. Click in the shortcut field and press **S** then **S** → click **Assign**
+1. **Tools → Customize → Macros** tab
+2. Select `SmartSketch.FCMacro` from the Macro dropdown, fill in Menu text, Tooltip, etc.
+3. Set the Accelerator to **S, S**
+4. Click **Add**
+
+![Customize macro dialog](screen_captures/customize_macro.png)
 
 `S, S` — mnemonic: **S**mart **S**ketch. (Or **S**uper **S**peedy, if you ask us.)
 
