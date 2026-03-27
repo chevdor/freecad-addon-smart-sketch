@@ -8,7 +8,7 @@ A FreeCAD macro that creates a sketch on the plane nearest to your current viewp
 
 ![FreeCAD default sketch creation](screen_captures/freecad_new_sketch.gif)
 
-**After — SmartSketch preserves the viewing direction:**
+**After — SmartSketch preserves the viewing direction, snaps to the nearest plane automatically (no need to be perfectly aligned), and skips the plane selection dialog entirely for a lightning fast workflow:**
 
 ![SmartSketch macro](screen_captures/freecad_smart_sketch.gif)
 
@@ -27,16 +27,20 @@ You then have to manually re-orient back to Rear before you can draw. This is te
 
 SmartSketch replaces that workflow with a single action:
 
-1. Orient the viewport however you like (Front, Rear, Top, Bottom, Left, Right)
-2. Run the macro
-3. The sketch is created on the nearest plane, the view stays **exactly where you put it** ✓
+1. Orient the viewport roughly toward the face you want to sketch on
+2. Press **S, S**
+3. The sketch opens immediately — correct plane, correct direction ✓
 
-Internally it does two things to achieve this:
+Key behaviours:
 
-- Sets **Map Reversed** on the sketch when you are looking at the back side of a plane, so the sketch normal faces you
-- Forces the viewport back to your original direction after FreeCAD's built-in auto-alignment fires
+- **No plane selection dialog** — the nearest plane is chosen automatically, so you go straight into the sketch
+- **No need to be perfectly aligned** — any view roughly facing a plane is enough; SmartSketch snaps to the closest one
+- **View is preserved** — looking at the Back? The sketch opens from the Back
+- **Body auto-created** — if no PartDesign Body exists in the document, one is created automatically
 
-If no PartDesign Body exists in the document, one is created automatically.
+For special cases — like attaching a sketch to the face of an existing solid — fall back to the standard New Sketch (**S, K**), which lets you pick any face or plane manually.
+
+Internally, SmartSketch sets **Map Reversed** on the sketch when you are looking at the back side of a plane, then forces the viewport back to your original direction after FreeCAD's built-in auto-alignment fires.
 
 ## Installation
 
