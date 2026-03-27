@@ -77,8 +77,10 @@ For alternative install methods see the [official macro installation guide](http
 ### 4. Add to toolbar *(optional)*
 
 1. **Tools → Customize → Toolbars** tab
-2. Select or create a custom toolbar (e.g. *My Tools*), set Category to **Macros**
-3. Find *SmartSketch* on the left, click **→** to add it to the toolbar → OK
+2. Set Category to **Macros**, select or create a toolbar on the right
+3. Find *Smart Sketch* on the left, click **→** to add it → OK
+
+![Customize toolbar dialog](screen_captures/customize_toolbar.png)
 
 ## Compatibility
 
