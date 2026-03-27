@@ -8,6 +8,8 @@ A FreeCAD macro that creates a sketch on the plane nearest to your current viewp
 2. Switch to **Part Design**, rotate the viewport toward the face you want to sketch on
 3. Press **S, S** — done
 
+If this saves you 5 minutes a day, consider [buying me a coffee](https://ko-fi.com/chevdor) ☕ — it helps keep these things coming.
+
 ## Demo
 
 **Before — built-in sketch creation always snaps the viewport to Front, even if you were looking at the Back. Same issue for Left (snaps to Right) and Bottom (snaps to Top):**
