@@ -4,7 +4,7 @@ A FreeCAD macro that creates a sketch on the plane nearest to your current viewp
 
 ## Demo
 
-**Before — built-in sketch creation snaps the viewport to Front:**
+**Before — built-in sketch creation always snaps the viewport to Front, even if you were looking at the Back. Same issue for Left (snaps to Right) and Bottom (snaps to Top):**
 
 ![FreeCAD default sketch creation](screen_captures/freecad_new_sketch.gif)
 
