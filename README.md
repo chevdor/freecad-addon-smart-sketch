@@ -50,18 +50,32 @@ For special cases — like attaching a sketch to the face of an existing solid �
 
 Internally, SmartSketch sets **Map Reversed** on the sketch when you are looking at the back side of a plane, then forces the viewport back to your original direction after FreeCAD's built-in auto-alignment fires.
 
-## Installation
+## Installation & Setup
 
-Follow the official FreeCAD documentation:
-[How to install macros](https://wiki.freecad.org/How_to_install_macros)
+### 1. Install via Addon Manager
 
-The short version: copy (or symlink) `SmartSketch.FCMacro` into your FreeCAD macro directory, then use **Macro → Macros…** to run it once to confirm it works.
+1. **Edit → Preferences → Addon Manager → Custom repositories** → add `https://github.com/chevdor/freecad-addon-smart-sketch`, branch `master` → OK
+2. **Tools → Addon Manager** → search for *SmartSketch* → click **Install**
 
-## Recommended Shortcut
+For alternative install methods see the [official macro installation guide](https://wiki.freecad.org/How_to_install_macros).
 
-Bind the macro to **S, S** (chord: press S then S) via **Tools → Customize → Keyboard**.
+### 2. Register the macro
+
+1. **Macro → Macros…** → select `SmartSketch` → click **Run** once to confirm it works
+
+### 3. Add the keyboard shortcut
+
+1. **Tools → Customize → Keyboard** tab
+2. Set Category to **Macros**, find *SmartSketch* in the list
+3. Click in the shortcut field and press **S** then **S** → click **Assign**
 
 `S, S` — mnemonic: **S**mart **S**ketch. (Or **S**uper **S**peedy, if you ask us.)
+
+### 4. Add to toolbar *(optional)*
+
+1. **Tools → Customize → Toolbars** tab
+2. Select or create a custom toolbar (e.g. *My Tools*), set Category to **Macros**
+3. Find *SmartSketch* on the left, click **→** to add it to the toolbar → OK
 
 ## Compatibility
 
