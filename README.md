@@ -27,7 +27,7 @@ You then have to manually re-orient back to Rear before you can draw. This is te
 
 SmartSketch replaces that workflow with a single action:
 
-1. Orient the viewport roughly toward the face you want to sketch on
+1. Orient the viewport roughly toward the face you want to sketch on — Front, Rear, Top, Left, whatever. You don't need to be perfectly aligned, just close enough.
 2. Press **S, S**
 3. The sketch opens immediately — correct plane, correct direction ✓
 
@@ -53,7 +53,7 @@ The short version: copy (or symlink) `SmartSketch.FCMacro` into your FreeCAD mac
 
 Bind the macro to **S, S** (chord: press S then S) via **Tools → Customize → Keyboard**.
 
-`S, S` — mnemonic: **S**mart **S**ketch.
+`S, S` — mnemonic: **S**mart **S**ketch. (Or **S**uper **S**peedy, if you ask us.)
 
 ## Compatibility
 
