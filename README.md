@@ -6,11 +6,11 @@ A FreeCAD macro that creates a sketch on the plane nearest to your current viewp
 
 **Before — built-in sketch creation snaps the viewport to Front:**
 
-![FreeCAD default sketch creation](freecad_new_sketch.gif)
+![FreeCAD default sketch creation](screen_captures/freecad_new_sketch.gif)
 
 **After — SmartSketch preserves the viewing direction:**
 
-![SmartSketch macro](freecad_smart_sketch.gif)
+![SmartSketch macro](screen_captures/freecad_smart_sketch.gif)
 
 ## The Problem
 
